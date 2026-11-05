@@ -4,7 +4,7 @@
   "verified_at": "2026-11-04T23:39:00Z",
   "source_repository": "GTimG/QuasiRiemannTracker",
   "source_commit": "47134867e2ce4d4a311d2da93783c2ae721d9bb9",
-  "baseline_tree_sha": "e2278f8d3de178f616b8a03c972caabbf2d874501",
+  "baseline_tree_sha": "e82378d33de178f616b8a03c972caabbf2d874501",
   "upstream_repository": "openai/math",
   "upstream_commit": "fd4aeeb2ee4fc729c18d98444fed42fd0529eeeb",
   "upstream_blob_verification": {

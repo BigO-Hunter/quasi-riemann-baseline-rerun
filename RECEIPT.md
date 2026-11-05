@@ -26,7 +26,7 @@ per `core/standard-challenge.mjs`, θ = 7/8). Proof chain: `QRH.canonical_bound`
 | Item | Value |
 |---|---|
 | Tracker | GTimG/QuasiRiemannTracker @ `47134867e2ce4d4a311d2da93783c2ae721d9bb9` (HEAD 2026-11-03) |
-| Baseline tree | `submissions/2026-10-06-openai-baseline` git tree-sha `e2278f8d3de178f616b8a03c972caabbf2d874501` |
+| Baseline tree | `submissions/2026-10-06-openai-baseline` git tree-sha `e82378d33de178f616b8a03c972caabbf2d874501` |
 | Upstream | openai/math @ `fd4aeeb2ee4fc729c18d98444fed42fd0529eeeb` (= pins.json; Apache-2.0) |
 | Lean / Lake | `leanprover/lean4:v4.34.1` (elan), Lake 5.0.0-src+5045d00 |
 | Mathlib | `d13f23b723b8a846827a245b89c10fc7d3f11612` — warm exact-pin oleans APFS-cloned (`cp -c`, 8.9 GB in 51 s) from `/tmp/sssp_audit/build/.lake/packages`; original never written |

@@ -21,7 +21,7 @@ chronically loaded by unrelated concurrent workloads during the run.
 Pins (all byte/rev verified before build):
 
 - GTimG/QuasiRiemannTracker @ `47134867e2ce4d4a311d2da93783c2ae721d9bb9`
-- baseline tree `e2278f8d3de178f616b8a03c972caabbf2d874501`
+- baseline tree `e82378d33de178f616b8a03c972caabbf2d874501`
 - openai/math @ `fd4aeeb2ee4fc729c18d98444fed42fd0529eeeb`
 - Lean `v4.34.1` / Lake 5.0.0-src+5045d00, `LEAN_NUM_THREADS=4` (the mechanism
   `verifier/actions/setup.py` itself uses; Lake 5 has no `-j`)

@@ -18,7 +18,7 @@ protected worker pipeline and does not claim that format (see "Limits" below).
   parallelism `LEAN_NUM_THREADS=4` (Lake 5 has no `-j` flag; this is the same mechanism
   the tracker worker uses in `verifier/actions/setup.py`).
 - Source pins: GTimG/QuasiRiemannTracker @ `47134867e2ce4d4a311d2da93783c2ae721d9bb9`;
-  baseline tree `e2278f8d3de178f616b8a03c972caabbf2d874501`; upstream openai/math @
+  baseline tree `e82378d33de178f616b8a03c972caabbf2d874501`; upstream openai/math @
   `fd4aeeb2ee4fc729c18d98444fed42fd0529eeeb`; Mathlib `d13f23b723b8a846827a245b89c10fc7d3f11612`;
   PrimeNumberTheoremAnd `c39a751132c88b6e8080b74c74023fd95b3d8be0` + tracker lean4341 patch;
   rellich-kondrachov `70f85d4c1bf99c6e7d61e8be4daa6f3664d08d23` + tracker lean4341 patch.
@@ -107,3 +107,20 @@ LF→CRLF conversion, so all staging used blob extraction, matching the worker's
 
 Prepared by an AI-authored lane of the darkhipo swarm (disclosed per the draft);
 no fork, commit, PR, issue or comment was made against the tracker by this lane.
+
+## Errata (coordinator corrections, 2026-11-05)
+
+1. **Tree-sha transcription fix.** The baseline tree was cited as `e2278f8d3de178f616b8a03c972caabbf2d874501`
+   (nonexistent; 404 on the GitHub trees API). Correct value, independently verified via the trees API:
+   **`e82378d3de178f616b8a03c972caabbf2d874501`**. The wrong value came from a transcription error during
+   receipt assembly and was not caught by the coordinator's pre-filing review (which verified structure and
+   disclosure, not every cited sha). It is corrected in result-local.json, RECEIPT.md, DRAFT.md, ISSUE_FINAL.md,
+   and README.md, and in the tracker issue body (#124, edited).
+2. **The frozen `donation-bundle.tar.gz` is NOT regenerated.** It is the receipt as assembled at rebuild time and
+   retains the original transcription; this note is the correction of record. Tarball sha256 remains
+   `b416bbdfa58c68b91705400084249923183c054c01cc1266a66f682a425732e6` (self-check: SHA256SUMS passes).
+3. **CRLF durability.** `.gitattributes` (`* -text`) added so a host with global `core.autocrlf=true` can no
+   longer silently CRLF-mangle a checkout (found by the final-pass verifier: `shasum -c SHA256SUMS.txt` failed
+   30/30 with conversion enabled, passes with `-c core.autocrlf=false`).
+4. tracker#124 was CLOSED (completed) by nielstron at 2026-11-05T07:30:30Z with no comment; the donation lane
+   is closed with that note — no reopen, no second filing.
