@@ -124,3 +124,19 @@ no fork, commit, PR, issue or comment was made against the tracker by this lane.
    30/30 with conversion enabled, passes with `-c core.autocrlf=false`).
 4. tracker#124 was CLOSED (completed) by nielstron at 2026-11-05T07:30:30Z with no comment; the donation lane
    is closed with that note — no reopen, no second filing.
+
+---
+
+## Why this repo is up
+
+Public verification evidence: an independent from-source rebuild + axiom check of the tracker's vendored OpenAI 7/8 baseline — the receipt the tracker's approved reuse flow points to.
+
+[BigO-Hunter](https://github.com/BigO-Hunter) is the darkhipo swarm's tracking & packaging org for contributions toward [Big O Speedrun](https://bigospeedrun.com) — a companion, never the project. Org story: [profile](https://github.com/BigO-Hunter/.github) · [bigo-hunter.github.io](https://bigo-hunter.github.io).
+
+## What work can be done here
+
+The receipt stands. Open work: reruns on further platforms/OSes; tracker-side integration of the reuse flow.
+
+## License
+
+Licensed under the Copy-Free/Stays-Free (CFSF) License — see [LICENSE](LICENSE). CFSF: copy-free (use for any purpose) and stays-free (nobody may fence this work). The name is unclaimed in software licensing (checked 2026-11-09) and is deliberately not "Copyfree" — the Copyfree Initiative's certification mark — since CFSF's anti-enclosure condition is excluded by their standard.  Vendored third-party material keeps its upstream license — see [NOTICE](NOTICE.md).
