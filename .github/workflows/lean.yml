@@ -38,8 +38,12 @@ jobs:
         working-directory: /tmp/qr_rebuild/workspace
         run: |
           lake update
-          git -C .lake/packages/PrimeNumberTheoremAnd apply "$GITHUB_WORKSPACE/pr103-rerun/patches/PrimeNumberTheoremAnd-lean4341.patch"
-          git -C .lake/packages/rellich-kondrachov apply "$GITHUB_WORKSPACE/pr103-rerun/patches/rellich-kondrachov-lean4341.patch"
+          # The vendored patches are CRLF; LF-normalize before git apply. Their
+          # LF sha256s match the pins recorded in RECEIPT.md.
+          tr -d '\r' < "$GITHUB_WORKSPACE/pr103-rerun/patches/PrimeNumberTheoremAnd-lean4341.patch" > /tmp/pnt-lean4341.patch
+          tr -d '\r' < "$GITHUB_WORKSPACE/pr103-rerun/patches/rellich-kondrachov-lean4341.patch" > /tmp/rk-lean4341.patch
+          git -C .lake/packages/PrimeNumberTheoremAnd apply /tmp/pnt-lean4341.patch
+          git -C .lake/packages/rellich-kondrachov apply /tmp/rk-lean4341.patch
           lake exe cache get
       - name: Build the full rerun (Challenge, Candidate, Solution, Submissions)
         working-directory: /tmp/qr_rebuild/workspace
