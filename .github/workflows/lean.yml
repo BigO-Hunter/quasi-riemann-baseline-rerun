@@ -15,6 +15,11 @@ jobs:
     timeout-minutes: 360
     env:
       LEAN_NUM_THREADS: 2
+      # Point the portable recipe scripts at this runner's scratch workspace.
+      QR_TRACKER: /tmp/qr_rebuild/tracker
+      QR_WORKSPACE: /tmp/qr_rebuild/workspace
+      QR_STAGE: /tmp/qr_rebuild/stage
+      QR_UPSTREAM: /tmp/qr_rebuild/openai-src/lean
     steps:
       - name: Check out the receipt repository
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
