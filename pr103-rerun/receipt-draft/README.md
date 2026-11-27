@@ -1,13 +1,9 @@
 # Independent rerun receipt for PR #103 (`closest-fraction-contact`)
 
-**Offer, not registration.** This directory contains an externally produced
-rerun of tracker PR #103's rank-1 row, offered for maintainer review and —
-only if you judge it useful — registration following the `receipts/pr48-…`
-shape (registered externally in PR #55). Per `verifier/receipt-reuse.mjs`,
-authentication is the maintainer's protected registration plus exact byte
-hashes; nothing here is a candidate-written PASS and no registration is
-claimed. No `verifier/` code, workflow, or `local-results.json` entry is
-touched.
+This directory describes an externally produced rerun of tracker PR #103's
+rank-1 row. It is independent verification evidence, freely reusable; it is
+not a tracker-registered receipt and claims no registration. The filed receipt
+itself lives on fork branch `receipt/pr103-8b1a0167` (see `../README.md`).
 
 ## What was rerun
 
@@ -67,7 +63,7 @@ main runs.
   board side: evidence lives in the tracker, credit with the author). This
   receipt adds evidence only — no board row, no score claim.
 
-## Files
+## Files (assembled by `../scripts/assemble_receipt.py`)
 
 - `result.json` — structured outcome (phases, exits, counts, axioms, pins)
 - `Challenge.lean`, `Solution.lean` — the rendered files actually built

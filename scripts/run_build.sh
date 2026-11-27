@@ -1,8 +1,12 @@
 #!/bin/bash
 # QR baseline rebuild: Challenge canary (Mathlib-only; validates warm-cache
 # traces) then Solution (full OAI closure). Bounded by external watchdog.
-cd /tmp/qr_rebuild/workspace || exit 90
-export LEAN_NUM_THREADS=4
+# Usage: run_build.sh [workspace-dir]   (default: $QR_WORKSPACE or <repo>/workspace)
+set -u
+ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+WS="${1:-${QR_WORKSPACE:-$ROOT/workspace}}"
+cd "$WS" || exit 90
+export LEAN_NUM_THREADS="${LEAN_NUM_THREADS:-4}"
 echo "=== CHALLENGE START $(date -u +%FT%TZ) lake=$(lake --version 2>&1 | head -1) ==="
 lake build Challenge
 rc1=$?

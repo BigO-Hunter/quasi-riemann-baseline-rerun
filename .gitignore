@@ -10,3 +10,12 @@ build/
 
 # OS
 .DS_Store
+
+
+# Rerun runtime artifacts (reproduced by scripts/, not redistributed)
+tracker/
+workspace/
+stage/
+openai-src/
+logs/
+*.log

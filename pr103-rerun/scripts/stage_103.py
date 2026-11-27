@@ -11,6 +11,7 @@ contains merged PR #103 = 8b1a0167; the rev the issue124 baseline bundle pinned)
 """
 import hashlib
 import json
+import os
 import pathlib
 import shutil
 import subprocess
@@ -18,9 +19,9 @@ import sys
 from math import gcd
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-TRACKER = ROOT / "tracker"
-WS = ROOT / "workspace"
-STAGE = ROOT / "stage"
+TRACKER = pathlib.Path(os.environ.get("QR_TRACKER") or ROOT / "tracker")
+WS = pathlib.Path(os.environ.get("QR_WORKSPACE") or ROOT / "workspace")
+STAGE = pathlib.Path(os.environ.get("QR_STAGE") or ROOT / "stage")
 
 REV = "47134867e2ce4d4a311d2da93783c2ae721d9bb9"
 CANDIDATE_DIR = "submissions/2026-11-01-closest-fraction-contact"
@@ -44,7 +45,7 @@ CHALLENGE_SHA = "8fb13ad977bca104591fcbc6ef01a58496e7385053c9b1445f95749afc0eff5
 
 
 def git(*args, binary=False):
-    r = subprocess.run(["/usr/bin/git", "-C", str(TRACKER), *args],
+    r = subprocess.run(["git", "-C", str(TRACKER), *args],
                        capture_output=True, check=True)
     return r.stdout if binary else r.stdout.decode()
 
@@ -58,6 +59,9 @@ def sha(b):
 
 
 def main():
+    if not (TRACKER / ".git").exists():
+        sys.exit(f"tracker clone not found at {TRACKER}; set QR_TRACKER to a clone of "
+                 "GTimG/QuasiRiemannTracker @ 47134867e2ce4d4a311d2da93783c2ae721d9bb9")
     if gcd(int(NUMERATOR), int(DENOMINATOR)) != 1:
         sys.exit("bound fraction not normalized (rational() would reject)")
     bound_lean = f"{NUMERATOR} / {DENOMINATOR}"  # core/exact-bound.mjs rendering
@@ -73,7 +77,7 @@ def main():
     # 1. Candidate/ from #103.
     src_prefix = CANDIDATE_DIR + "/src"
     with open(STAGE / "cand.tar", "wb") as f:
-        subprocess.run(["/usr/bin/git", "-C", str(TRACKER), "archive", REV,
+        subprocess.run(["git", "-C", str(TRACKER), "archive", REV,
                         src_prefix], stdout=f, check=True)
     subprocess.run(["tar", "-xf", str(STAGE / "cand.tar"), "-C", str(STAGE)],
                    check=True)
@@ -85,7 +89,7 @@ def main():
         prefix = f"submissions/{d}/src/Submissions"
         t = STAGE / f"dep-{d}.tar"
         with open(t, "wb") as f:
-            subprocess.run(["/usr/bin/git", "-C", str(TRACKER), "archive", REV,
+            subprocess.run(["git", "-C", str(TRACKER), "archive", REV,
                             prefix], stdout=f, check=True)
         x = STAGE / f"dep-{d}"
         x.mkdir()

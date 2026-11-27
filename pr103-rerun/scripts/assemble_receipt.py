@@ -128,8 +128,8 @@ def main():
         },
         "provenance": {
             "recipe": "scripts/stage_103.py + scripts/run_103.sh "
-                      "(darkhipo/quasi-riemann-baseline-rerun, branch "
-                      "pr103-8b1a0167)",
+                      "(BigO-Hunter/quasi-riemann-baseline-rerun, "
+                      "pr103-rerun/)",
             "staged_source_files": len(json.loads(
                 (ROOT / "staging-manifest.json").read_text())),
         },

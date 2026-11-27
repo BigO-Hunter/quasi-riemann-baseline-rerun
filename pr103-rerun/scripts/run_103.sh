@@ -6,11 +6,10 @@ set -u
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT/workspace" || exit 90
 export LEAN_NUM_THREADS=2
-# LEAN_NUM_THREADS=2 (not the verifier worker's 4): the rerun host ran concurrent
-# Lean campaigns under memory pressure, and host-level memory-pressure management
-# SIGTERMs oversized lean builds; halving concurrent lean RSS keeps this build a
-# good citizen. Thread count affects wall time only, not compilation results;
-# disclosed in the receipt's tool-pins.json.
+# LEAN_NUM_THREADS=2 (not the verifier worker's 4): on a shared host under memory
+# pressure, host resource management may SIGTERM oversized lean builds; halving
+# concurrent lean RSS keeps this build a good citizen. Thread count affects wall
+# time only, not compilation results; disclosed in the receipt's tool-pins.json.
 
 # Host sampler (1-min resolution; bounds wall-time claims only).
 ( while :; do

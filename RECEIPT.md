@@ -6,10 +6,10 @@ from source under Lean v4.34.1 against Mathlib `d13f23b7` on macOS arm64, and
 `#print axioms` for every target declaration returns exactly `[propext, Classical.choice,
 Quot.sound]`. Zero compile errors. Within the 4 h budget (successful run: 3 h 00 m 51 s).
 
-Generated 2026-11-04 by a bounded local rebuild lane. Receipt generation only — no
+Generated 2026-11-04 by an independent local rebuild. Receipt generation only — no
 submission, no external posts/issues/PRs/comments. Conventions follow
 GTimG/QuasiRiemannTracker `verifier/standard/receipts/*` (README.md + result.json shape),
-adapted for a LOCAL run; machine-readable twin: `result-local.json`.
+adapted for a LOCAL run.
 
 ## 1. Target
 
@@ -29,7 +29,7 @@ per `core/standard-challenge.mjs`, θ = 7/8). Proof chain: `QRH.canonical_bound`
 | Baseline tree | `submissions/2026-10-06-openai-baseline` git tree-sha `e82378d33de178f616b8a03c972caabbf2d874501` |
 | Upstream | openai/math @ `fd4aeeb2ee4fc729c18d98444fed42fd0529eeeb` (= pins.json; Apache-2.0) |
 | Lean / Lake | `leanprover/lean4:v4.34.1` (elan), Lake 5.0.0-src+5045d00 |
-| Mathlib | `d13f23b723b8a846827a245b89c10fc7d3f11612` — warm exact-pin oleans APFS-cloned (`cp -c`, 8.9 GB in 51 s) from `/tmp/sssp_audit/build/.lake/packages`; original never written |
+| Mathlib | `d13f23b723b8a846827a245b89c10fc7d3f11612` — warm exact-pin oleans APFS-cloned (`cp -c`, 8.9 GB in 51 s) from a prior exact-pin workspace on the same host; original never written |
 | PrimeNumberTheoremAnd | `c39a751132c88b6e8080b74c74023fd95b3d8be0` + `PrimeNumberTheoremAnd-lean4341.patch` sha256 `0890432340c0025973bcfe070b634355fa366cc831595f68526e4c73c8903d82` |
 | rellich-kondrachov | `70f85d4c1bf99c6e7d61e8be4daa6f3664d08d23` + `rellich-kondrachov-lean4341.patch` sha256 `0c121d8517dfeadc93ef24fe2deb56beec7cb3998e2552dee8f61c780b1408c8` |
 | Scaffolding | `verifier/standard/lakefile.lean` (blob `86cbb08d7274ef9827e2d7809abcdba9ec4c683a`), `verifier/standard/lake-manifest.json` (blob `38400d31f072a8d417078fdf0a064e1577d310da`) — blob-exact copies |
@@ -50,23 +50,23 @@ transforms — CRLF→LF (upstream stores CRLF blobs) and import remap `import O
 The tracker's two lean4341 patches are **byte-identical to upstream's own
 `lean/patches/` copies** (LF-normalized) and were applied with the worker's own
 idempotent `git apply` mechanism (`verifier/actions/setup.py`). Unpatched RK `70f85d4`
-provably fails on Lean 4.34.1 (preserved: `build.log.rkfail`) — the patches are
+provably fails on Lean 4.34.1 — the patches are
 load-bearing, and this receipt demonstrates the failure they cure.
 
 ## 3. Build record
 
 Host: Apple M4 Max 128 GB, macOS, chronically loaded (other tenants: 1-min loadavg
 54–435 peak during the run; swap free dipped to 592 MB; host-wide lean/lake RSS peaked
-90 GB including a concurrent foreign lane — this lane itself capped at 4 threads).
-Monitor: `hostmon.log` (130 samples, 120 s cadence). No OOM, no abort, no wedge.
+90 GB including concurrent unrelated builds — this rebuild itself capped at 4 threads).
+Monitor: host load sampled at 120 s cadence (130 samples). No OOM, no abort, no wedge.
 
 Parallelism: `LEAN_NUM_THREADS=4` — Lake 5.0.0 has no `-j` flag (maintainer-documented:
 the env var is the mechanism; the tracker worker itself uses it, `setup.py`). Cap honored.
 
-Phases (all logs preserved):
-1. `build.log.abort1/abort2` — `-j`/`--jobs` option errors (Lake 5); fixed via env var.
-2. `build.log.rkfail` — unpatched RK type-mismatch errors (see §2); patched, resumed.
-3. `build.log` — **final run 19:31:39Z → 22:32:30Z (3 h 00 m 51 s)**:
+Phases:
+1. Early aborts — `-j`/`--jobs` option errors (Lake 5); fixed via env var.
+2. Unpatched RK type-mismatch errors (see §2); patched, resumed.
+3. Final run — **19:31:39Z → 22:32:30Z (3 h 00 m 51 s)**:
    - `lake build Challenge` — exit 0 (19:31:52Z; first pass 19:12:47→19:15:29Z,
      8,925 jobs, 2 m 42 s). Warm Mathlib: **zero recompiles**; only warning = the
      template's intentional `sorry` (Challenge.lean:6:8).
@@ -81,7 +81,8 @@ Phases (all logs preserved):
 ## 4. Kernel receipts (`#print axioms`, Lean 4.34.1 default kernel, local oleans)
 
 All eight declarations — **axioms exactly `[propext, Classical.choice, Quot.sound]`,
-no `sorryAx`, no others** (logs: `axioms.log`, `axioms_zeta.log`, `axioms_hecke.log`):
+no `sorryAx`, no others** (probes: `sources/Axioms.lean`, `sources/AxiomsZeta.lean`,
+`sources/AxiomsHecke.lean`; re-run via `lake env lean`):
 
 1. `QRH.canonical_bound` (Solution.lean — the canonical all-Dirichlet θ=7/8 statement)
 2. `Submissions.openai_baseline.bound`
@@ -116,13 +117,12 @@ compatibility patches.
 - Warm Mathlib reuse works cross-workspace: lake trace validation accepted the cloned
   8.9 GB exact-pin build with zero recompiles (revisions identical in both manifests).
 
-## 7. Artifact index (/tmp/qr_rebuild/)
+## 7. Artifact index (this repository)
 
-`workspace/` (resumable QRH lake workspace, fully built) · `build.log` +
-`build.log.{abort1,abort2,rkfail}` · `axioms.log`, `axioms_zeta.log`, `axioms_hecke.log` ·
-`hostmon.log` · `final-stats.json` · `built-modules.txt` · `dep-revs.txt` ·
-`verify_upstream.py` + `openai-src/lean` (upstream comparison inputs) ·
-`stage_workspace.py`, `run_build.sh`, `final_stats.py` · `tracker/` (reference clone) ·
-`RECEIPT.md`, `result-local.json`.
-
-No writes outside /tmp/qr_rebuild/. /usr/bin/git used for all git operations.
+`sources/` (rendered Challenge/Solution, axiom probes, lakefile/manifest/toolchain) ·
+`scripts/` (staging, build driver, stats, upstream verification, host monitor) ·
+`final-stats.json` · `built-modules.txt` · `dep-revs.txt` · `upstream-verification.txt` ·
+`SHA256SUMS.txt` · `RECEIPT.md`. The full built workspace (~9 GB incl. cloned packages)
+is reproduced by `scripts/stage_workspace.py` + `scripts/run_build.sh` against a tracker
+clone at the pinned revision; it is not redistributed here. Git blob extraction
+(`git archive`/`cat-file`) is used for all staging, conversion-free.

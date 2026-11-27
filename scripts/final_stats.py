@@ -1,11 +1,16 @@
 """Final receipt statistics for the QR baseline rebuild."""
 import collections
 import json
+import os
 import pathlib
 import re
 
-WS = pathlib.Path("/tmp/qr_rebuild/workspace")
-OUT = pathlib.Path("/tmp/qr_rebuild")
+# Portable paths: repo-local defaults, overridable via environment.
+# QR_WORKSPACE: the built rebuild workspace; QR_OUT: where artifacts are written;
+# QR_BUILD_LOG: the final build log parsed for timing/job totals.
+ROOT = pathlib.Path(__file__).resolve().parent.parent
+WS = pathlib.Path(os.environ.get("QR_WORKSPACE") or ROOT / "workspace")
+OUT = pathlib.Path(os.environ.get("QR_OUT") or ROOT)
 
 # 1. olean inventory
 lib = WS / ".lake/build/lib"
@@ -20,7 +25,7 @@ mods = [str(o.relative_to(lib / "lean"))[:-6].replace("/", ".") for o in oleans]
 (OUT / "built-modules.txt").write_text("\n".join(sorted(mods)) + "\n")
 
 # 2. timing histogram from the final build log
-raw = (OUT / "build.log").read_bytes().decode("utf8", "replace")
+raw = pathlib.Path(os.environ.get("QR_BUILD_LOG") or OUT / "build.log").read_bytes().decode("utf8", "replace")
 raw = re.sub(r"\x1b\[[0-9;]*[A-Za-z]", "", raw).replace("\r", "\n")
 times = sorted(float(m) for m in re.findall(r"\(([\d.]+)s\)", raw))
 n = len(times)

@@ -6,19 +6,24 @@ lakefile.lean, and render Challenge.lean/Solution.lean byte-exactly per
 core/standard-challenge.mjs + verifier/challenge.mjs (theta = 7/8).
 """
 import hashlib
+import os
 import pathlib
 import shutil
 import subprocess
 import sys
 
-TRACKER = pathlib.Path("/tmp/qr_rebuild/tracker")
-WS = pathlib.Path("/tmp/qr_rebuild/workspace")
-STAGE = pathlib.Path("/tmp/qr_rebuild/stage")
+# Portable paths: repo-local defaults, overridable via environment.
+# QR_TRACKER must point at a clone of GTimG/QuasiRiemannTracker pinned to
+# 47134867e2ce4d4a311d2da93783c2ae721d9bb9 (the revision this receipt binds).
+ROOT = pathlib.Path(__file__).resolve().parent.parent
+TRACKER = pathlib.Path(os.environ.get("QR_TRACKER") or ROOT / "tracker")
+WS = pathlib.Path(os.environ.get("QR_WORKSPACE") or ROOT / "workspace")
+STAGE = pathlib.Path(os.environ.get("QR_STAGE") or ROOT / "stage")
 SRC_PREFIX = "submissions/2026-10-06-openai-baseline/src"
 
 
 def git(*args, binary=False):
-    r = subprocess.run(["/usr/bin/git", "-C", str(TRACKER), *args],
+    r = subprocess.run(["git", "-C", str(TRACKER), *args],
                        capture_output=True, check=True)
     return r.stdout if binary else r.stdout.decode()
 
@@ -32,6 +37,9 @@ def sha(b):
 
 
 def main():
+    if not (TRACKER / ".git").exists():
+        sys.exit(f"tracker clone not found at {TRACKER}; set QR_TRACKER to a clone of "
+                 "GTimG/QuasiRiemannTracker @ 47134867e2ce4d4a311d2da93783c2ae721d9bb9")
     if WS.exists():
         sys.exit(f"workspace already exists: {WS}")
     if STAGE.exists():
@@ -41,7 +49,7 @@ def main():
 
     # 1. Extract submission src (Candidate/, Submissions/) via git archive.
     with open(STAGE / "src.tar", "wb") as f:
-        subprocess.run(["/usr/bin/git", "-C", str(TRACKER), "archive", "HEAD", SRC_PREFIX],
+        subprocess.run(["git", "-C", str(TRACKER), "archive", "HEAD", SRC_PREFIX],
                        stdout=f, check=True)
     subprocess.run(["tar", "-xf", str(STAGE / "src.tar"), "-C", str(STAGE)], check=True)
     src = STAGE / SRC_PREFIX

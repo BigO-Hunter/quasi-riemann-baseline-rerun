@@ -6,3 +6,7 @@ stage/
 *.ilean
 *.olean.server
 .build*
+
+logs/
+*.log
+forkrepo/

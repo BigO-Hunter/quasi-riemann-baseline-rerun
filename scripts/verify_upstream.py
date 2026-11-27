@@ -6,11 +6,16 @@ lean/**.lean in openai/math; equality is expected modulo the import remap
 packaging transformation). Main.lean is packaging-only (no upstream file).
 """
 import hashlib
+import os
 import pathlib
 import sys
 
-WS = pathlib.Path("/tmp/qr_rebuild/workspace/Submissions/openai_baseline")
-UP = pathlib.Path("/tmp/qr_rebuild/openai-src/lean")
+# Portable paths: repo-local defaults, overridable via environment.
+# QR_WORKSPACE: the staged rebuild workspace (see stage_workspace.py).
+# QR_UPSTREAM: a checkout of openai/math @ fd4aeeb2ee4fc729c18d98444fed42fd0529eeeb (lean/ tree).
+ROOT = pathlib.Path(__file__).resolve().parent.parent
+WS = pathlib.Path(os.environ.get("QR_WORKSPACE") or ROOT / "workspace") / "Submissions/openai_baseline"
+UP = pathlib.Path(os.environ.get("QR_UPSTREAM") or ROOT / "openai-src/lean")
 
 def norm(b: bytes) -> bytes:
     return b.replace(b"\r\n", b"\n").replace(b"import OAI.", b"import Submissions.openai_baseline.OAI.")

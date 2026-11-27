@@ -1,6 +1,14 @@
-"""Host monitor: sample loadavg/swap/lean-RSS every 120s for the build receipt."""
+"""Host monitor: sample loadavg/swap/lean-RSS every 120s for the build receipt.
+
+macOS sampler (sysctl/vm_stat). Output path: $QR_HOSTMON_LOG or <repo>/hostmon.log.
+"""
+import os
+import pathlib
 import subprocess
 import time
+
+ROOT = pathlib.Path(__file__).resolve().parent.parent
+OUT = pathlib.Path(os.environ.get("QR_HOSTMON_LOG") or ROOT / "hostmon.log")
 
 def line():
     ts = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
@@ -17,7 +25,7 @@ def line():
                 pass
     return f"{ts} load={load} swap=[{swap}] lean_procs={len(lean)} lean_rss_mb={sum(lean)//1024}\n"
 
-with open("/tmp/qr_rebuild/hostmon.log", "a") as log:
+with open(OUT, "a") as log:
     while True:
         try:
             log.write(line())
