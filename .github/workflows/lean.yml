@@ -18,20 +18,15 @@ jobs:
     steps:
       - name: Check out the receipt repository
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
-      - name: Install Lean (toolchain from sources/lean-toolchain)
-        uses: leanprover/lean-action@24581d74d674803a25a81b10b059c5c0cdd344c6 # v1
-        with:
-          lake-package-directory: sources
-          auto-config: "false"
-          build: "false"
-          test: "false"
-          lint: "false"
-          use-mathlib-cache: "false"
+      - name: Install elan and Lean v4.34.1 (sources/lean-toolchain)
+        run: |
+          curl -sSf https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y --default-toolchain leanprover/lean4:v4.34.1
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
       - name: Stage the rebuild workspace from the tracker pin
         run: |
           mkdir -p /tmp/qr_rebuild
           git init -q /tmp/qr_rebuild/tracker
-          git -C /tmp/qr_rebuild/tracker fetch --depth 1 origin 47134867e2ce4d4a311d2da93783c2ae721d9bb9
+          git -C /tmp/qr_rebuild/tracker fetch --depth 1 https://github.com/GTimG/QuasiRiemannTracker.git 47134867e2ce4d4a311d2da93783c2ae721d9bb9
           git -C /tmp/qr_rebuild/tracker checkout -q FETCH_HEAD
           python3 scripts/stage_workspace.py
       - name: Fetch dependencies, apply the lean4341 compatibility patches, get the Mathlib cache
@@ -50,6 +45,6 @@ jobs:
       - name: Verify the vendored tree against openai/math at the upstream pin
         run: |
           git init -q /tmp/qr_rebuild/openai-src
-          git -C /tmp/qr_rebuild/openai-src fetch --depth 1 origin fd4aeeb2ee4fc729c18d98444fed42fd0529eeeb
+          git -C /tmp/qr_rebuild/openai-src fetch --depth 1 https://github.com/openai/math.git fd4aeeb2ee4fc729c18d98444fed42fd0529eeeb
           git -C /tmp/qr_rebuild/openai-src checkout -q FETCH_HEAD
           python3 scripts/verify_upstream.py
