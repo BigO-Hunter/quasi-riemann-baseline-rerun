@@ -1,11 +1,10 @@
 # Independent local rerun — OpenAI 7/8 baseline rung (openai-baseline)
 
-This bundle records an independent, from-source rebuild and Lean-kernel axiom check of
-the tracker's vendored OpenAI seven-eighths baseline (`submissions/2026-10-06-openai-baseline`),
-performed outside the tracker's CI on different hardware and a different OS. It is offered
-as evidence for the maintainer-approved reuse flow described in README.md
-("Reuse an independently verified receipt", L207-244). It is NOT a product of the
-protected worker pipeline and does not claim that format (see "Limits" below).
+Independent, from-source rebuild and Lean-kernel axiom check of the tracker's vendored
+OpenAI seven-eighths baseline (`submissions/2026-10-06-openai-baseline`), run outside
+the tracker's CI on different hardware and a different OS. Offered as evidence for the
+maintainer-approved reuse flow in the tracker README ("Reuse an independently verified
+receipt", L207-244). Scope: Lean default kernel only — see Limits below.
 
 ## Run identity
 
@@ -108,41 +107,25 @@ LF→CRLF conversion, so all staging used blob extraction, matching the worker's
 Prepared by an AI-authored lane of the darkhipo swarm (disclosed per the draft);
 no fork, commit, PR, issue or comment was made against the tracker by this lane.
 
-## Errata (coordinator corrections, 2026-11-05)
+## Notes
 
-1. **Tree-sha transcription fix.** The baseline tree was cited as `e2278f8d3de178f616b8a03c972caabbf2d874501`
-   (nonexistent; 404 on the GitHub trees API). Correct value, independently verified via the trees API:
-   **`e82378d3de178f616b8a03c972caabbf2d874501`**. The wrong value came from a transcription error during
-   receipt assembly and was not caught by the coordinator's pre-filing review (which verified structure and
-   disclosure, not every cited sha). It is corrected in result-local.json, RECEIPT.md, DRAFT.md, ISSUE_FINAL.md,
-   and README.md, and in the tracker issue body (#124, edited).
-2. **The frozen `donation-bundle.tar.gz` is NOT regenerated.** It is the receipt as assembled at rebuild time and
-   retains the original transcription; this note is the correction of record. Tarball sha256 remains
-   `b416bbdfa58c68b91705400084249923183c054c01cc1266a66f682a425732e6` (self-check: SHA256SUMS passes).
-3. **CRLF durability.** `.gitattributes` (`* -text`) added so a host with global `core.autocrlf=true` can no
-   longer silently CRLF-mangle a checkout (found by the final-pass verifier: `shasum -c SHA256SUMS.txt` failed
-   30/30 with conversion enabled, passes with `-c core.autocrlf=false`).
-4. tracker#124 was CLOSED (completed) by nielstron at 2026-11-05T07:30:30Z with no comment; the donation lane
-   is closed with that note — no reopen, no second filing.
+- The frozen `donation-bundle.tar.gz` is the receipt as assembled at rebuild time and
+  retains the original tree-sha transcription; the corrected baseline tree sha
+  `e82378d33de178f616b8a03c972caabbf2d874501` (Run identity above) is the correction
+  of record. Tarball sha256:
+  `b416bbdfa58c68b91705400084249923183c054c01cc1266a66f682a425732e6` (SHA256SUMS passes).
+- `.gitattributes` (`* -text`) keeps checkouts byte-stable under `core.autocrlf=true`.
+- Tracker issue #124 was closed (completed) by the maintainer on 2026-11-05; the
+  donation lane is closed.
 
 ## Sibling lane: PR #103 rerun (`pr103-rerun/`)
 
-The org's second independent QRT rerun lane — build-tail triage + resume for tracker
-CI run #103 (`closest-fraction-contact`, rank-1 row) — is folded in as `pr103-rerun/`
-(from the former private `qrt-exec` repo, 2026-11-26, redacted clean import). Like this
-baseline bundle, it ended in maintainer refusal: the receipt was committed to fork branch
-`receipt/pr103-8b1a0167` @ `2180aadf22` on
-[BigO-Hunter/QuasiRiemannTracker](https://github.com/BigO-Hunter/QuasiRiemannTracker)
-and offered as upstream PR #127, **closed unmerged** (see `FILING_NOTES.md`). That fork
-branch is the sole surviving PR #103 receipt and is never pruned. Lane spent; no open work.
-
----
-
-## Why this repo is up
-
-Public verification evidence: an independent from-source rebuild + axiom check of the tracker's vendored OpenAI 7/8 baseline — the receipt the tracker's approved reuse flow points to.
-
-[BigO-Hunter](https://github.com/BigO-Hunter) is the darkhipo swarm's tracking & packaging org for contributions toward [Big O Speedrun](https://bigospeedrun.com) — a companion, never the project. Org story: [profile](https://github.com/BigO-Hunter/.github) · [bigo-hunter.github.io](https://bigo-hunter.github.io).
+A second independent QRT rerun — build-tail triage + resume for tracker CI run #103
+(`closest-fraction-contact`, rank-1 row). Its receipt was offered as upstream PR #127,
+**closed unmerged**; the sole surviving copy is fork branch `receipt/pr103-8b1a0167`
+@ `2180aadf22` on
+[BigO-Hunter/QuasiRiemannTracker](https://github.com/BigO-Hunter/QuasiRiemannTracker),
+never pruned (see `FILING_NOTES.md`). Lane spent; no open work.
 
 ## What work can be done here
 
@@ -150,4 +133,6 @@ The receipt stands. Open work: reruns on further platforms/OSes; tracker-side in
 
 ## License
 
-Licensed under the Copy-Free/Stays-Free (CFSF) License — see [LICENSE](LICENSE). CFSF: copy-free (use for any purpose) and stays-free (nobody may fence this work). The name is unclaimed in software licensing (checked 2026-11-09) and is deliberately not "Copyfree" — the Copyfree Initiative's certification mark — since CFSF's anti-enclosure condition is excluded by their standard.  Vendored third-party material keeps its upstream license — see [NOTICE](NOTICE.md).
+Licensed under the Copy-Free/Stays-Free (CFSF) License — see [LICENSE](LICENSE). CFSF: copy-free (use for any purpose) and stays-free (nobody may fence this work). Vendored third-party material keeps its upstream license — see [NOTICE](NOTICE.md).
+
+Part of [BigO-Hunter](https://github.com/BigO-Hunter) — independent verification and packaging for [Big O Speedrun](https://bigospeedrun.com) · [org profile](https://github.com/BigO-Hunter/.github) · [bigo-hunter.github.io](https://bigo-hunter.github.io).
