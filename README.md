@@ -125,6 +125,17 @@ no fork, commit, PR, issue or comment was made against the tracker by this lane.
 4. tracker#124 was CLOSED (completed) by nielstron at 2026-11-05T07:30:30Z with no comment; the donation lane
    is closed with that note — no reopen, no second filing.
 
+## Sibling lane: PR #103 rerun (`pr103-rerun/`)
+
+The org's second independent QRT rerun lane — build-tail triage + resume for tracker
+CI run #103 (`closest-fraction-contact`, rank-1 row) — is folded in as `pr103-rerun/`
+(from the former private `qrt-exec` repo, 2026-11-26, redacted clean import). Like this
+baseline bundle, it ended in maintainer refusal: the receipt was committed to fork branch
+`receipt/pr103-8b1a0167` @ `2180aadf22` on
+[BigO-Hunter/QuasiRiemannTracker](https://github.com/BigO-Hunter/QuasiRiemannTracker)
+and offered as upstream PR #127, **closed unmerged** (see `FILING_NOTES.md`). That fork
+branch is the sole surviving PR #103 receipt and is never pruned. Lane spent; no open work.
+
 ---
 
 ## Why this repo is up

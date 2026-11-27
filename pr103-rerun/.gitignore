@@ -1,0 +1,8 @@
+bundle/
+tracker/
+workspace/
+stage/
+*.olean
+*.ilean
+*.olean.server
+.build*
